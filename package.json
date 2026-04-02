@@ -4,7 +4,8 @@
   "type": "module",
   "scripts": {
     "run:feedback": "node scripts/run-feedback.js",
-    "dev": "vercel dev",
-    "start": "vercel dev"
+    "cf:dev": "wrangler dev",
+    "cf:deploy": "wrangler deploy",
+    "cf:trigger": "wrangler dev --test-scheduled"
   }
 }

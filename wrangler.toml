@@ -1,0 +1,15 @@
+name = "padlet-agent"
+main = "src/worker.js"
+compatibility_date = "2026-04-03"
+
+[triggers]
+crons = ["*/5 * * * *"]
+
+[observability.logs]
+enabled = true
+
+[vars]
+PADLET_BOT_DISPLAY_NAME = "AI Feedback Bot"
+OPENAI_MODEL = "gpt-5-mini"
+POLL_LOOKBACK_MINUTES = "10"
+MAX_POSTS_PER_RUN = "5"
