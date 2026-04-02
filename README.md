@@ -42,8 +42,8 @@ npx wrangler secret put CRON_SECRET
 
 - `PADLET_BOT_DISPLAY_NAME = "AI Feedback Bot"`
 - `OPENAI_MODEL = "gpt-5-mini"`
-- `POLL_LOOKBACK_MINUTES = "10"`
-- `MAX_POSTS_PER_RUN = "5"`
+- `POLL_LOOKBACK_MINUTES = "15"`
+- `MAX_POSTS_PER_RUN = "15"`
 
 필요하면 나중에 `wrangler.toml`에서 바꿀 수 있습니다.
 

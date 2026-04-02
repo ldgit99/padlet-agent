@@ -1,6 +1,6 @@
 name = "padlet-agent"
 main = "src/worker.js"
-compatibility_date = "2026-04-03"
+compatibility_date = "2025-04-03"
 compatibility_flags = ["global_fetch_strictly_public"]
 
 [triggers]
@@ -12,5 +12,5 @@ enabled = true
 [vars]
 PADLET_BOT_DISPLAY_NAME = "AI Feedback Bot"
 OPENAI_MODEL = "gpt-5-mini"
-POLL_LOOKBACK_MINUTES = "10"
-MAX_POSTS_PER_RUN = "5"
+POLL_LOOKBACK_MINUTES = "15"
+MAX_POSTS_PER_RUN = "15"
