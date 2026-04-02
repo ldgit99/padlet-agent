@@ -1,0 +1,37 @@
+name: Padlet AI Feedback
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: padlet-ai-feedback
+  cancel-in-progress: false
+
+jobs:
+  run-feedback:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Run feedback cycle
+        env:
+          PADLET_API_KEY: ${{ secrets.PADLET_API_KEY }}
+          PADLET_BOARD_ID: ${{ secrets.PADLET_BOARD_ID }}
+          PADLET_BOT_DISPLAY_NAME: ${{ secrets.PADLET_BOT_DISPLAY_NAME }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_MODEL: ${{ secrets.OPENAI_MODEL }}
+          POLL_LOOKBACK_MINUTES: ${{ secrets.POLL_LOOKBACK_MINUTES }}
+          MAX_POSTS_PER_RUN: ${{ secrets.MAX_POSTS_PER_RUN }}
+        run: node scripts/run-feedback.js

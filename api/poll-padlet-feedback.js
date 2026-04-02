@@ -1,11 +1,5 @@
 import { loadConfig } from "../lib/env.js";
-import {
-  fetchBoardSnapshot,
-  getCandidatePosts,
-  hasExistingBotFeedback,
-  createComment
-} from "../lib/padlet.js";
-import { moderateText, generateFeedback } from "../lib/openai.js";
+import { runFeedbackCycle } from "../lib/run-feedback.js";
 
 export default async function handler(req, res) {
   if (req.method !== "GET" && req.method !== "POST") {
@@ -21,43 +15,8 @@ export default async function handler(req, res) {
   }
 
   try {
-    const snapshot = await fetchBoardSnapshot(config);
-    const candidates = getCandidatePosts(snapshot, config).slice(0, config.maxPostsPerRun);
-
-    const results = [];
-
-    for (const post of candidates) {
-      if (hasExistingBotFeedback(snapshot, post.id, config.botDisplayName)) {
-        results.push({ postId: post.id, status: "skipped_existing_comment" });
-        continue;
-      }
-
-      const moderation = await moderateText(config, post.text);
-      if (moderation.flagged) {
-        results.push({
-          postId: post.id,
-          status: "flagged_for_teacher_review",
-          categories: moderation.categories
-        });
-        continue;
-      }
-
-      const feedback = await generateFeedback(config, {
-        boardTitle: snapshot.boardTitle,
-        postText: post.text,
-        authorName: post.authorName
-      });
-
-      await createComment(config, post.id, feedback);
-      results.push({ postId: post.id, status: "comment_created" });
-    }
-
-    res.status(200).json({
-      ok: true,
-      boardId: config.boardId,
-      checked: candidates.length,
-      results
-    });
+    const result = await runFeedbackCycle(config);
+    res.status(200).json(result);
   } catch (error) {
     res.status(500).json({
       ok: false,
@@ -75,4 +34,3 @@ function isAuthorized(req, cronSecret) {
   const expected = `Bearer ${cronSecret}`;
   return authHeader === expected;
 }
-
