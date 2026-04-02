@@ -1,0 +1,13 @@
+.env
+.env.local
+.env.*.local
+.vercel
+node_modules
+dist
+coverage
+*.log
+*.tmp
+*.bak
+Thumbs.db
+.DS_Store
+

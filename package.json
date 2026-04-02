@@ -1,0 +1,10 @@
+{
+  "name": "padlet-ai-feedback-agent",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vercel dev",
+    "start": "vercel dev"
+  }
+}
+
