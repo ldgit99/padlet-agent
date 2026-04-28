@@ -2,6 +2,8 @@ name: Padlet AI Feedback Manual Debug
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: '*/5 * * * *'
 
 permissions:
   contents: read
